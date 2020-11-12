@@ -1,0 +1,70 @@
+---
+title: "Visualization Workshop"
+output: html_notebook
+author: "David Lowe"
+---
+
+_"Graphical excellence is that which gives to the viewer the greatest number of ideas in the shortest time with the least ink in the smallest space"_
+
+_-Edward R. Tufte_
+
+
+### Introduction
+
+As statisticians, mathmeticians and data scientists we are facinated by the complex and the intricate. Unfortunately, most of the business partners we will have do not share the same data and analytics literacy, and our visuals need to cater to _their_ ability to understand and build insights out of our analyses. On the bright side, if we can simplify our insights for our business partners, we generally come to understand our own analyses and data more completely!
+
+### Building a Visual
+
+To that end, good data visualization/exploration from analysis consists of three steps:
+
+__Step 1: Visualize complex relationships (for your eyes only)__
+
+ * Scatter plots
+ * Histograms
+ * boxplots
+ * any plot with more than 3 dimensions (x axis, y axis, color, size, etc.)
+
+
+__Step 2: Simplify plots for ease of interpretability (for data scientists only)__
+
+ * Line graphs
+ * Bar plots
+ * Donut charts
+
+
+__Step 3: Further simplify, edit and annotate plot to call out most important insights (for end user)__
+
+ * Use color and accents to call out data
+ * Use text to call out major data points
+ * Label the plot to help the audience see what you want them to see
+ * Take out as many distractions from the plot as possible
+
+You'll notice that I blend these three steps together as I work. I start with a rough plot, and then I work on refinements of my plots as I go until I end up with the plot I want at the very end. 
+
+### Plotting in R
+
+R has some first-class packages to help us build plots that can be as comprehensive and complex as we'd like them to be, or as simple and clear as we need them to be. We will use the popular `ggplot2` package and some add-on packages that extend the capabilities of `ggplot2`.
+
+__Capabilities of `ggplot2`:__
+
+  * Layers: `ggplot2` builds plots using layers (e.g. background theme, axes, labels, color scheme, etc.). This makes it really easy to edit and refine plots and it also allows us to be very flexible with how we build our plots.
+  * Plot Types: `ggplot2` in its most basic form can do most if not all standard plot types (histograms, scatter plots, line graphs, etc.). You can see what ggplot offers in terms of plotting options by typing `?geom_` + Tab. 
+  * Dimensions: While we want to keep our plots simple for the user, we have several dimensions to play with that can help improve our understanding of the data. These are called using `aes()` (aesthetics) within ggplot.
+    * x-axis (`x`)
+    * y-axis (`y`)
+    * color (`color` or `fill`)
+    * size (`size`)
+    * line type (`linetype`)
+    * text (`label`)
+    * transparency (`alpha`)
+  
+We aren't going to be able to go through all of these today, but I encourage you to check out the 
+[ggplot2 gallery](https://www.r-graph-gallery.com/ggplot2-package.html) to get more ideas on the capabilities of ggplot. _A warning: most of these plots are far too advanced to present to business partners, but it can give you inspiration and you can simplify further from there._ 
+
+Let's get started!
+
+
+### Case Study: Customer Conversions
+
+Let's say we have customers that we did some segmentation on and then sent ads to these customers based on their segmentation. We modeled the customers' "conversion" which in this case means that they purchased the product. To model this we use several predictors, but what we are most interested in is how many ads were delivered and how much of their conversion could be attributed to those ads that were delivered. With this information, the business wants to optimize who they send their ads to and with what frequency should they send them. We have a data set that has ad impressions over time, the impact on the customer's purchase, and the optimal number of ads based on a marginal ROI calculation (we won't get into the math here, the output of the modeling will be enough for our purposes).
+
