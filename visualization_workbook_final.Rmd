@@ -81,6 +81,8 @@ Load the packages...
 # library(tidyr)
 # library(ggplot2)
 library(tidyverse)
+library(scales)
+library(viridis)
 
 ```
 
@@ -163,13 +165,13 @@ segment_over_time %>%
   arrange(desc(segment)) %>% 
   mutate(
     pct = value / sum(value),
-    label_pct = scales::percent(pct, accuracy = 1),
+    label_pct = percent(pct, accuracy = 1),
     label_y = cumsum(value) - (value / 2)
   ) %>% 
   ggplot(aes(x = month, y = value, fill = segment)) +
   geom_bar(stat = "identity") + 
-  geom_text(aes(y = label_y, label = scales::percent(pct, accuracy = 1)), color = "#FFFFFF", alpha = 0.8, fontface = "bold", size = 2.5) + 
-  scale_fill_manual(values = viridis::viridis(50)[seq(5, 50, by = 10)]) + 
+  geom_text(aes(y = label_y, label = percent(pct, accuracy = 1)), color = "#FFFFFF", alpha = 0.8, fontface = "bold", size = 2.5) + 
+  scale_fill_manual(values = viridis(50)[seq(5, 50, by = 10)]) + 
   facet_wrap(~metric, scales = "free_y") + 
   my_theme
 
@@ -184,7 +186,7 @@ segment_over_time %>%
   pivot_longer(cols = total_conversions:total_ads, names_to = "metric", values_to = "value") %>%
   ggplot(aes(x = month, y = value, color = segment)) +
   geom_line(size = 1.5, alpha = 0.8) + 
-  scale_color_manual(values = viridis::viridis(50)[seq(5, 50, by = 10)]) + 
+  scale_color_manual(values = viridis(50)[seq(5, 50, by = 10)]) + 
   facet_wrap(~metric, scales = "free_y") + 
   my_theme
 ```
@@ -202,7 +204,7 @@ segment_over_time %>%
   ggplot(aes(x = month, y = conv_per_ad, fill = segment)) +
   geom_bar(stat = "identity", size = 1.5, alpha = 0.8) + 
   geom_hline(aes(yintercept = avg_conv_per_ad), linetype = "dashed", alpha = 0.8) + 
-  scale_fill_manual(values = viridis::viridis(50)[seq(5, 50, by = 10)]) + 
+  scale_fill_manual(values = viridis(50)[seq(5, 50, by = 10)]) + 
   scale_x_date(date_labels = "%b") + 
   facet_wrap(~segment, scales = "free_x") +
   my_theme
@@ -273,7 +275,7 @@ final_plot <-
   ) %>%
   ggplot(aes(x = segment, y = value, fill = segment, alpha = name)) + 
   geom_bar(stat = "identity", position = "dodge") + 
-  scale_fill_manual(values = viridis::viridis(50)[seq(5, 50, by = 10)], labels = paste0("Seg. ", 1:5)) + 
+  scale_fill_manual(values = viridis(50)[seq(5, 50, by = 10)], labels = paste0("Seg. ", 1:5)) + 
   scale_alpha_manual(values = c(0.6, 0.9), labels = c("2019 Average", "Optimal")) + 
   scale_color_manual(values = c("#FE5748", "#83C355")) + 
   guides(color = FALSE, fill = FALSE) + 
@@ -294,7 +296,7 @@ net_change_in_ads <- sum(conversion_summary$diff)
 
 final_plot + 
   geom_text(aes(label = diff_label, color = diff_sign), fontface = "bold", vjust = -0.2, position = position_dodge(width = 0.9), show.legend = FALSE) + 
-  geom_text(aes(label = scales::number(value, accuracy = 0.1)), position = position_dodge(width = 0.9), fontface = "bold", color = "#FFFFFF", vjust = 1.3, show.legend = FALSE) + 
+  geom_text(aes(label = number(value, accuracy = 0.1)), position = position_dodge(width = 0.9), fontface = "bold", color = "#FFFFFF", vjust = 1.3, show.legend = FALSE) + 
   annotate("text", x = "Segment 4", y = 2.3, size = 3, hjust = 0,
            label = paste0("We can maximize profit with a net\nincrease of +", net_change_in_ads, " ads reallocated\nacross our existing customer base.")) + 
   labs(subtitle = "Number above bar represents the total ads needed to get to optimal.")
